@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+        <!--xml文件所在package名称要和Mapper interface所在的包名一一对应-->
+<mapper namespace="com.mapper.UserMapper">
+    <!--xml的namespace要和xml文件的package名称一一对应-->
+    <resultMap id="baseResultMap" type="com.bean.User">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <!--column取出列的别名，id bean的属性-->
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="user_no" jdbcType="BIGINT" property="no" />
+        <result column="user_password" jdbcType="VARCHAR" javaType="String" property="password" />
+        <result column="is_Admin" jdbcType="VARCHAR" javaType="Boolean" property="isAdmin" />
+    </resultMap>
+    <!--resultMap="baseResultMap"映射到上面resultMap定义的结果集-->
+    <select id="getUser" parameterType="User" resultMap="baseResultMap">
+        SELECT
+            id,
+            user_no,
+            user_password,
+            is_Admin
+        from
+            users
+        where
+            user_no = #{no}
+        and
+--         参数名为实体属性名
+            user_password = #{password}
+    </select>
+    <!--是否管理员权限-->
+    <select id="isAdmin" parameterType="int" resultType="boolean">
+        select
+            is_admin
+        from
+            users
+        where
+            user_no=#{no}
+    </select>
+    <!--修改密码       当传入的参数为实体时，参数名必须和实体属性名一致-->
+    <update id="updatePwd" >
+        UPDATE users
+        SET
+          user_password=#{password}
+        WHERE
+          user_no=#{no}
+    </update>
+</mapper>

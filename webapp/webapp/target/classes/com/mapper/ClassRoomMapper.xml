@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.ClassRoomMapper">
+    <!--自定义返回结果集的类型-->
+    <resultMap id="BaseResultMap" type="com.bean.ClassRoom">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="room_no" jdbcType="VARCHAR" javaType="String" property="roomNo" />
+        <result column="status" jdbcType="VARCHAR" property="status" />
+        <result column="course_id" jdbcType="VARCHAR" property="courseId" />
+    </resultMap>
+    <insert id="insertClassRoom" parameterType="ClassRoom">
+        INSERT into class_room
+        (room_no,status,course_id)
+        VALUES
+        (#{roomNo},"空闲","无")
+    </insert>
+    <update id="updateClassRoomStatus">
+        UPDATE class_room
+        SET
+            status=#{status}
+        WHERE
+            room_no=#{roomNo}
+    </update>
+    <update id="updateClassRoomCourse">
+        update class_room
+        SET
+            course_id=#{courseId}
+        where
+            room_no=#{roomNo}
+    </update>
+    <select id="selectClassRoomByRoomNo" resultMap="BaseResultMap">
+        SELECT
+            id,
+            room_no,
+            status,
+            course_id
+        FROM
+            class_room
+        WHERE
+            room_no=#{roomNo}
+    </select>
+    <select id="selectAllClassRoom" resultMap="BaseResultMap">
+        SELECT
+            id,
+            room_no,
+            status,
+            course_id
+        FROM
+            class_room
+    </select>
+    <select id="findRoomByCourseId" resultMap="BaseResultMap" parameterType="String">
+        SELECT
+            id,
+            room_no,
+            status,
+            course_id
+        FROM
+            class_room
+        WHERE
+            course_id=#{courseId}
+    </select>
+</mapper>

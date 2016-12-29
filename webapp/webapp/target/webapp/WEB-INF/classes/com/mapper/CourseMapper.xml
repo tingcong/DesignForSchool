@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.CourseMapper">
+    <resultMap id="BaseResultMap" type="com.bean.Course">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="course_id" jdbcType="VARCHAR" property="courseId" />
+        <result column="course_name" jdbcType="VARCHAR" property="courseName" />
+        <result column="stu_num" jdbcType="BIGINT" property="stuNum" />
+        <result column="course_time" jdbcType="VARCHAR" property="courseTime" />
+        <result column="multimedia" jdbcType="BOOLEAN" property="multimedia" />
+        <result column="teach_no" jdbcType="BIGINT" property="teachNo" />
+    </resultMap>
+
+    <insert id="insertCourse">
+        INSERT INTO Course
+        (course_id,course_name,stu_num,course_time,multimedia,teach_no)
+        VALUES
+        (#{courseId},#{courseName},#{stuNum},#{courseTime},#{multimedia},#{teachNo})
+    </insert>
+
+    <select id="findAllCourse" resultMap="BaseResultMap">
+        SELECT * FROM course
+    </select>
+
+    <select id="findCourseByCourseId" resultMap="BaseResultMap">
+        SELECT * FROM course where course_id=#{courseId}
+    </select>
+    <select id="getCourseInfoByTeachNo" resultMap="BaseResultMap">
+        SELECT * FROM course where teach_no=#{teachNo}
+    </select>
+
+</mapper>

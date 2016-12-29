@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.ChooseCourseInfoMapper">
+    <resultMap id="BaseResultMap" type="com.bean.ChooseCourseInfo">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="course_id" jdbcType="VARCHAR" property="courseId"/>
+        <result column="stu_no" jdbcType="BIGINT" property="stuNo"/>
+        <result column="choose_date" jdbcType="VARCHAR" property="chooseDate"/>
+    </resultMap>
+    <insert id="insertRecord">
+        insert INTO
+            choose_course_record
+            (course_id,stu_no,choose_date)
+        VALUES
+            (#{courseId},#{stuNo},SYSDATE())
+    </insert>
+
+    <select id="findRecordByStuNo" resultMap="BaseResultMap" parameterType="Integer">
+        SELECT
+              id,
+              course_id,
+              stu_no,
+              choose_date
+        FROM
+              choose_course_record
+        WHERE
+              stu_no=#{stuNo}
+    </select>
+
+    <select id="getRecordByCourseId" resultMap="BaseResultMap" parameterType="String">
+        SELECT
+              id,
+              course_id,
+              stu_no,
+              choose_date
+        FROM
+              choose_course_record
+        WHERE
+              course_id=#{courseId}
+    </select>
+
+
+</mapper>
