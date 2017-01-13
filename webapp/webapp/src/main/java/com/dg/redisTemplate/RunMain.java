@@ -8,7 +8,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * 参考http://blog.csdn.net/aacm1992/article/details/21977237
  */
 public class RunMain {
-    public static void main( String[] args )
+
+    public void run_a()
     {
         ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring-redis.xml");
         UserForRedisService userService =  (UserForRedisService) applicationContext.getBean("userService");
@@ -37,5 +38,13 @@ public class RunMain {
         System.out.println("User is not in redis yet: " + userService.get(user1));
         System.out.println("User is not in redis yet: " + userService.get(user2));
 
+    }
+
+    public void run_b(){
+    }
+    public static void main( String[] args )
+    {
+        RunMain runMain=new RunMain();
+        runMain.run_a();
     }
 }

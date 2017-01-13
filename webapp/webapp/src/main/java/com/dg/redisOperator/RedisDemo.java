@@ -1,6 +1,5 @@
 package com.dg.redisOperator;
 
-import jdk.nashorn.internal.runtime.regexp.joni.exception.InternalException;
 import redis.clients.jedis.Jedis;
 
 import java.util.HashMap;
@@ -11,31 +10,19 @@ import java.util.Map;
 /**
  * Created by zy on 2017/1/13.
  */
-public class TestRedis {
-    private Jedis jedis;
+public class RedisDemo {
 
-    public void setup(){
-        //连接redis服务器
-        jedis=new Jedis("10.10.23.152",3679);
-
-        //权限认证
-//        jedis.auth("redis");
-    }
-
-    /**
-     * redis存储字符串
-     */
-    public void testString(){
+    public void testString(Jedis jedis){
         //-------添加数据----------
-        jedis.set("name","hutingcong");
+        jedis.set("name","li jia");
         System.out.println(jedis.get("name"));
 
         //拼接
-        jedis.append("name","is mine");
+        jedis.append("name"," is mine");
         System.out.println(jedis.get("name"));
 
         //设置多个键值对
-        jedis.mset("name","lijia","age","21","sex","female");
+        jedis.mset("name","li jia","age","21","sex","female");
         //进行加1操作
         jedis.incr("age");
         System.out.println(jedis.get("name")+"-"+jedis.get("age")+"-"+jedis.get("sex"));
@@ -45,25 +32,25 @@ public class TestRedis {
     /**\
      * redis操作map
      */
-    public void testMap(){
+    public void testMap(Jedis jedis){
         //-------添加数据----------
         Map<String, String> map = new HashMap<String, String>();
-        map.put("name", "lijia");
+        map.put("name", "li jia");
         map.put("age", "21");
         map.put("sex", "female");
         jedis.hmset("user", map);
         //取出user中的name，执行结果:[minxr]-->注意结果是一个泛型的List
         //第一个参数是存入redis中map对象的key，后面跟的是放入map中的对象的key，后面的key可以跟多个，是可变参数
-        List<String> rsmap = jedis.hmget("user", "name", "age", "qq");
+        List<String> rsmap = jedis.hmget("user", "name","age", "sex");
         System.out.println(rsmap);
 
         //删除map中的某个键值
         jedis.hdel("user","age");
-        System.out.println(jedis.hmget("user", "age")); //因为删除了，所以返回的是null
-        System.out.println(jedis.hlen("user")); //返回key为user的键中存放的值的个数2
-        System.out.println(jedis.exists("user"));//是否存在key为user的记录 返回true
-        System.out.println(jedis.hkeys("user"));//返回map对象中的所有key
-        System.out.println(jedis.hvals("user"));//返回map对象中的所有value
+        System.out.println("age:"+jedis.hmget("user", "age")); //因为删除了，所以返回的是null
+        System.out.println("key为user的键中存放的值的个数:"+jedis.hlen("user")); //返回key为user的键中存放的值的个数2
+        System.out.println("是否存在key为user的记录:"+jedis.exists("user"));//是否存在key为user的记录 返回true
+        System.out.println("map对象中的所有key:"+jedis.hkeys("user"));//返回map对象中的所有key
+        System.out.println("map对象中的所有value:"+jedis.hvals("user"));//返回map对象中的所有value
 
         Iterator<String> iter=jedis.hkeys("user").iterator();
         while (iter.hasNext()){
@@ -75,7 +62,7 @@ public class TestRedis {
     /**
      * jedis操作List
      */
-    public void testList(){
+    public void testList(Jedis jedis){
         //开始前。先移除所有的内容
         jedis.del("java framework");
         System.out.println(jedis.lrange("java framework",0,-1));
@@ -95,14 +82,15 @@ public class TestRedis {
 
     /**
      * jedis操作Set
+     * 此功能还没完成
      */
-    public void testSet(){
+    public void testSet(Jedis jedis){
         //添加
-        jedis.sadd("user","lijia");
-        jedis.sadd("user","guoxiaqin");
-        jedis.sadd("user","chengyan");
-        jedis.sadd("user","guoxiaqin");
-        jedis.sadd("user","lijia");
+        jedis.sadd("user","li jia");
+        jedis.sadd("user","guo xia qin");
+        jedis.sadd("user","cheng yan");
+        jedis.sadd("user","guo xia qin");
+        jedis.sadd("user","li jia");
 
         //移除noname
         jedis.srem("user","who");
@@ -112,27 +100,16 @@ public class TestRedis {
         System.out.println(jedis.scard("user"));//返回集合的元素个数
     }
 
-    public void test() throws InternalException{
-        //jedis排序
-        //注意，此处的rpush和lpush是List的操作。是一个双向链表
-        jedis.del("a");//先清除数据，再加入数据进行测试
-        jedis.rpush("a","1");
-        jedis.lpush("a","6");
-        jedis.lpush("a","3");
-        jedis.lpush("a","9");
-        System.out.println(jedis.lrange("a",0,-1));// [9, 3, 6, 1]
-        System.out.println(jedis.sort("a")); //[1, 3, 6, 9]  //输入排序后结果
-        System.out.println(jedis.lrange("a",0,-1));
-    }
-
-    public void testRedisPool(){
-        RedisUtil.getJedis().set("newname", "中文测试");
-        System.out.println(RedisUtil.getJedis().get("newname"));
-    }
-
     public static void main(String args[]){
-        TestRedis testRedis=new TestRedis();
-        testRedis.setup();
-        testRedis.testString();
+        Jedis jedis=new Jedis("127.0.0.1");
+        RedisDemo redisDemo=new RedisDemo();
+        redisDemo.testString(jedis);
+        System.out.println("############################");
+        redisDemo.testMap(jedis);
+        System.out.println("############################");
+        redisDemo.testList(jedis);
+        System.out.println("############################");
+        redisDemo.testSet(jedis);
     }
+
 }
