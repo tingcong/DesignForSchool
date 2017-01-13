@@ -35,7 +35,7 @@ public class ChooseCourseInfoController {
     }
 
 
-    @RequestMapping("findRecordByStuNo")
+    @RequestMapping("findRecordByStuNo.htm")
     @ResponseBody
     public Object findRecordByStuNo(HttpServletRequest request, HttpServletResponse response, Integer stuNo){
         return chooseCourseInfoService.findRecordByStuNo(stuNo);

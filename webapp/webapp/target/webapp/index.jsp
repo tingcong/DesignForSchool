@@ -46,12 +46,6 @@
                 return;
             }
 
-            //              $.post(url, [data], [callback], [type])
-            //              url:发送请求地址。
-            //              data:待发送 Key/value 参数。
-            //              callback:发送成功时回调函数。
-            //              type:返回内容格式，xml, html, script, json, text, _default。
-
             $.post("${ctx}/checkUserPwd.htm", {username: no, password: password}, function (data) {
                 if ($.trim(data) == "") {
                     alert("用户名或密码错误");

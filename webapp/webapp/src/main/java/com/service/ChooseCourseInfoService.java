@@ -2,6 +2,7 @@ package com.service;
 
 import com.bean.ChooseCourseInfo;
 import com.mapper.ChooseCourseInfoMapper;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,6 +49,7 @@ public class ChooseCourseInfoService {
     @Transactional
     public Object findRecordByStuNo(Integer stuNo) {
         JSONObject json = new JSONObject();
+        JSONArray jsonArray=new JSONArray();
         try {
             //获取课程编号，课程名称
             List<ChooseCourseInfo> list_C = new ArrayList<ChooseCourseInfo>();
@@ -69,12 +71,13 @@ public class ChooseCourseInfoService {
     //            list_SCI.add(stuCourseInfo);
                 System.out.println(jsonObject);
                 json.put(tmp.getCourseId(),jsonObject);
+                jsonArray.add(jsonObject);
                 jsonObject.clear();
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        return json;
+        return jsonArray;
     }
 
     @Transactional

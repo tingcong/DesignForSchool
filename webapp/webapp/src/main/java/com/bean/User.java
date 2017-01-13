@@ -42,4 +42,14 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public User(Integer id, int no, String password, Boolean isAdmin) {
+        this.id = id;
+        this.no = no;
+        this.password = password;
+        this.isAdmin = isAdmin;
+    }
+
+    public User() {
+    }
 }

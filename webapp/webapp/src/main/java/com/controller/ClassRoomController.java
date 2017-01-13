@@ -71,7 +71,7 @@ public class ClassRoomController {
         return classRoomService.selectClassRoomByRoomNo(classRoomParam);
     }
 
-    @RequestMapping("findAllClassRoom")
+    @RequestMapping("findAllClassRoom.htm")
     @ResponseBody
     public List<ClassRoom> selectAllClassRoom(){
         return classRoomService.selectAllClassRoom();

@@ -27,10 +27,9 @@ public class TeachController {
     }
 
     //查询已选该老师课程的学生名单
-    @RequestMapping("getStuInfoByTeachNo")
+    @RequestMapping("getStuInfoByTeachNo.htm")
     @ResponseBody
-    public List<Student> getStuInfoByTeachNo(HttpServletRequest request, HttpServletResponse response, int teach_no){
-        return teacherService.getStuInfoByTeachNo(teach_no);
+        public List<Student> getStuInfoByTeachNo(HttpServletRequest request, HttpServletResponse response, int teach_no){
+            return teacherService.getStuInfoByTeachNo(teach_no);
     }
-
 }
